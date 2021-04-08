@@ -82,9 +82,11 @@
                       autocomplete="off"
                       class="layui-input">
                   </div>
-                  <div class="layui-form-mid">
+                  <div>
                     <span style="color: #c00;"
-                      v-html="svg">SVG</span>
+                      class="svg"
+                      @click="_getcode()"
+                      v-html="svg"></span>
                   </div>
                 </div>
                 <div class="layui-form-item">
@@ -103,13 +105,13 @@
 </template>
 
 <script>
+import Code from '@/mixin/code'
 export default {
   name: 'Forget',
+  mixins: [Code],
   data () {
     return {
-      username: '',
-      code: '',
-      svg: ''
+      username: ''
     }
   }
 }

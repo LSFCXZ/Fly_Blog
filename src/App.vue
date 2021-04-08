@@ -18,4 +18,13 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/css/global.css";
+.svg {
+  position: relative;
+  // top: -4px;
+  svg {
+    position: relative;
+    top: -12px;
+    height: 50px;
+  }
+}
 </style>

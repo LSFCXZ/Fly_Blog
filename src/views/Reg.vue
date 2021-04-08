@@ -100,7 +100,9 @@
                   </div>
                   <div class="layui-form-mid">
                     <span style="color: #c00;"
-                      v-html="svg">SVG</span>
+                      v-html="svg"
+                      class="svg"
+                      @click="_getcode()"></span>
                   </div>
                 </div>
                 <div class="layui-form-item">
@@ -128,8 +130,10 @@
 </template>
 
 <script>
+import Code from '@/mixin/code'
 export default {
   name: 'Reg',
+  mixins: [Code],
   data () {
     return {
       OnClickMsg: '获取验证码',
@@ -139,9 +143,7 @@ export default {
       name: '',
       password: '',
       repassword: '',
-      vercode: '',
-      code: '',
-      svg: ''
+      vercode: ''
     }
   },
   methods: {
