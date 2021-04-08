@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    HelloWord
+    这是首页
   </div>
 </template>
 

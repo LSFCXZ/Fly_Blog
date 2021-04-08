@@ -14,10 +14,10 @@
             href="../user/login.html"></a>
         </li>
         <li class="layui-nav-item">
-          <a href="../user/login.html">登入</a>
+          <router-link :to="{name:'login'}">登入</router-link>
         </li>
         <li class="layui-nav-item">
-          <a href="../user/reg.html">注册</a>
+          <router-link :to="{name:'reg'}">注册</router-link>
         </li>
 
         <!-- 登入后的状态 -->
