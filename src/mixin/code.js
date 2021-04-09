@@ -1,10 +1,11 @@
 import { getCode } from '@/api/login'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 export default {
   name: 'Add',
-  // components: {
-  //   ValidationProvider,
-  //   ValidationObserver
-  // },
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
   data () {
     return {
       code: '',

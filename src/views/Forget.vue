@@ -15,9 +15,11 @@
         <div class="layui-form layui-tab-content"
           id="LAY_ucm"
           style="padding: 20px 0;">
-          <div class="layui-tab-item layui-show">
-            <!-- 重置密码 -->
-            <!--
+          <validation-observer ref="observer"
+            v-slot="{ validate }">
+            <div class="layui-tab-item layui-show">
+              <!-- 重置密码 -->
+              <!--
           <div class="fly-msg">{{d.username}}，请重置您的密码</div>
           <div class="layui-form layui-form-pane"  style="margin-top: 30px;">
             <form action="/user/repass" method="post">
@@ -55,48 +57,64 @@
           <div class="fly-error">非法链接，请重新校验您的信息</div>
           -->
 
-            <div class="layui-form layui-form-pane">
-              <form>
-                <div class="layui-form-item">
-                  <label for="L_email"
-                    class="layui-form-label">用户名</label>
-                  <div class="layui-input-inline">
-                    <input type="text"
-                      id="L_email"
-                      name="username"
-                      placeholder="请输入用户名"
-                      v-model="username"
-                      autocomplete="off"
-                      class="layui-input">
+              <div class="layui-form layui-form-pane">
+                <form>
+                  <div class="layui-form-item">
+                    <label for="L_email"
+                      class="layui-form-label">用户名</label>
+                    <validation-provider rules="required|email"
+                      v-slot="{errors}"
+                      name="username">
+                      <div class="layui-input-inline">
+                        <input type="text"
+                          id="L_email"
+                          name="username"
+                          placeholder="请输入用户名"
+                          v-model="username"
+                          autocomplete="off"
+                          class="layui-input">
+                      </div>
+                      <div class="layui-form-mid">
+                        <span style="color: #c00">{{ errors[0] }}</span>
+                      </div>
+                    </validation-provider>
                   </div>
-                </div>
-                <div class="layui-form-item">
-                  <label for="L_vercode"
-                    class="layui-form-label">验证码</label>
-                  <div class="layui-input-inline">
-                    <input type="text"
-                      id="L_vercode"
-                      name="code"
-                      v-model="code"
-                      placeholder="请输入验证码"
-                      autocomplete="off"
-                      class="layui-input">
+                  <div class="layui-form-item">
+                    <label for="L_vercode"
+                      class="layui-form-label">验证码</label>
+                    <validation-provider name="code"
+                      ref="codefield"
+                      rules="required|length:4"
+                      v-slot="{ errors }">
+                      <div class="layui-input-inline">
+                        <input type="text"
+                          id="L_vercode"
+                          name="code"
+                          v-model="code"
+                          placeholder="请输入验证码"
+                          autocomplete="off"
+                          class="layui-input">
+                      </div>
+                      <div>
+                        <span style="color: #c00;"
+                          class="svg"
+                          @click="_getcode()"
+                          v-html="svg"></span>
+                      </div>
+                      <div>
+                        <span style="color: #c00">{{ errors[0] }}</span>
+                      </div>
+                    </validation-provider>
                   </div>
-                  <div>
-                    <span style="color: #c00;"
-                      class="svg"
-                      @click="_getcode()"
-                      v-html="svg"></span>
+                  <div class="layui-form-item">
+                    <button class="layui-btn"
+                      type="button"
+                      @click="validate().then(submit)">提交</button>
                   </div>
-                </div>
-                <div class="layui-form-item">
-                  <button class="layui-btn"
-                    lay-submit>提交</button>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
-
-          </div>
+          </validation-observer>
         </div>
       </div>
     </div>
@@ -106,12 +124,31 @@
 
 <script>
 import Code from '@/mixin/code'
+import { forget } from '@/api/login'
 export default {
   name: 'Forget',
   mixins: [Code],
   data () {
     return {
       username: ''
+    }
+  },
+  methods: {
+    async submit () {
+      // 判断前端验证表单是否全部通过
+      const isValid = await this.$refs.observer.validate()
+      if (!isValid) {
+        return
+      }
+      // 忘记密码，发送邮件
+      forget({
+        username: this.username,
+        code: this.code
+      }).then((res) => {
+        if (res.code === 200) {
+          alert('发送成功')
+        }
+      })
     }
   }
 }
