@@ -1,47 +1,38 @@
-import axios from 'axios'
+import axios from '@/utils/request'
 
-// 验证码
-const getCode = async () => {
-  let result = ''
-  try {
-    result = await axios.get('/public/getCaptcha')
-    if (result.status === 200) {
-      return result.data
+/**
+ * 验证码接口
+ * @param {*} sid 唯一的标识
+ * @returns
+ */
+const getCode = (sid) => {
+  return axios.get('/public/getCaptcha', {
+    params: {
+      sid: sid
     }
-  } catch (e) {
-    console.log(e)
-  }
+  })
 }
 // 忘记密码
-const forget = async (option) => {
-  let result = ''
-  try {
-    result = await axios.post('/login/forget', {
-      ...option
-    })
-    if (result.status === 200) {
-      return result.data
-    }
-  } catch (e) {
-    console.log(e)
-  }
+const forget = (option) => {
+  return axios.post('/login/forget', {
+    ...option
+  })
 }
 // 注册验证邮箱
-const verification = async (option) => {
-  let result = ''
-  try {
-    result = await axios.post('/login/ver', {
-      ...option
-    })
-    if (result.status === 200) {
-      return result.data
-    }
-  } catch (e) {
-    console.log(e)
-  }
+const verification = (option) => {
+  return axios.post('/login/ver', {
+    ...option
+  })
+}
+// 登录
+const login = (loginInfo) => {
+  return axios.post('/login/login', {
+    ...loginInfo
+  })
 }
 export {
   getCode,
   forget,
-  verification
+  verification,
+  login
 }

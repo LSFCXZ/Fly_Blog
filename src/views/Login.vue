@@ -117,6 +117,7 @@
 <script>
 import Code from '@/mixin/code'
 import { login } from '@/api/login'
+
 export default {
   name: 'Login',
   mixins: [Code],
@@ -135,14 +136,18 @@ export default {
       }
       // 登录
       login({
-
+        username: this.username,
+        password: this.password,
+        code: this.code,
+        sid: this.$store.state.sid
       }).then((res) => {
-
+        if (res.code === 200) {
+          console.log(res)
+        }
       })
     }
   },
   mounted () {
-
   }
 }
 </script>

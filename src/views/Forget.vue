@@ -131,6 +131,7 @@ export default {
   data () {
     return {
       username: ''
+
     }
   },
   methods: {

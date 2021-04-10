@@ -187,6 +187,7 @@
 <script>
 import Code from '@/mixin/code'
 import { verification } from '@/api/login'
+import uuid from 'uuid/dist/v4'
 export default {
   name: 'Reg',
   mixins: [Code],
@@ -199,7 +200,8 @@ export default {
       name: '',
       password: '',
       repassword: '',
-      vercode: ''
+      vercode: '',
+      uid: ''
     }
   },
   methods: {
@@ -214,7 +216,8 @@ export default {
         return
       }
       verification({
-        username: this.username
+        username: this.username,
+        uid: uuid()
       }).then((res) => {
         if (res.code === 200) {
           this.OnClick = true
