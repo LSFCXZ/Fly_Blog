@@ -108,8 +108,7 @@
                   <div class="layui-form-item">
                     <label for="vercode"
                       class="layui-form-label">邮箱验证码</label>
-                    <validation-provider name="code"
-                      ref="codefield"
+                    <validation-provider name="vcode"
                       rules="required|length:4"
                       v-slot="{ errors }">
                       <div class="layui-input-inline">
@@ -186,7 +185,7 @@
 
 <script>
 import Code from '@/mixin/code'
-import { verification } from '@/api/login'
+import { verification, reg } from '@/api/login'
 import uuid from 'uuid/dist/v4'
 export default {
   name: 'Reg',
@@ -201,7 +200,7 @@ export default {
       password: '',
       repassword: '',
       vercode: '',
-      uid: ''
+      uid: uuid()
     }
   },
   methods: {
@@ -217,7 +216,7 @@ export default {
       }
       verification({
         username: this.username,
-        uid: uuid()
+        uid: this.uid
       }).then((res) => {
         if (res.code === 200) {
           this.OnClick = true
@@ -233,7 +232,21 @@ export default {
       if (!isValid) {
         return
       }
-      console.log('submit')
+      reg({
+        username: this.username,
+        name: this.name,
+        password: this.password,
+        code: this.code,
+        vcode: this.vercode,
+        sid: this.$store.state.sid,
+        uid: this.uid
+      }).then((res) => {
+        if (res.code === 200) {
+          console.log(res)
+        } else if (res.code === 500) {
+          this.$refs.observer.setErrors(res.msg)
+        }
+      })
     },
     // 60s倒计时
     countdown () {

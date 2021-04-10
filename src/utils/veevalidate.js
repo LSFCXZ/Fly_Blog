@@ -27,9 +27,10 @@ localize('zh_CN', {
     email: '邮箱',
     username: '用户名',
     code: '验证码',
+    vcode: '邮箱验证码',
     name: '昵称',
     password: '密码',
-    usernamecode: '邮箱验证码',
+    // usernamecode: '邮箱验证码',
     oldpassword: '旧密码',
     title: '标题',
     catalog: '分类'

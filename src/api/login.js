@@ -30,9 +30,19 @@ const login = (loginInfo) => {
     ...loginInfo
   })
 }
+/**
+ * 注册接口
+ * @param {} regInfo 用户注册信息
+ */
+const reg = (regInfo) => {
+  return axios.post('/login/reg', {
+    ...regInfo
+  })
+}
 export {
   getCode,
   forget,
   verification,
-  login
+  login,
+  reg
 }

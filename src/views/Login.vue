@@ -117,7 +117,6 @@
 <script>
 import Code from '@/mixin/code'
 import { login } from '@/api/login'
-
 export default {
   name: 'Login',
   mixins: [Code],
@@ -142,7 +141,19 @@ export default {
         sid: this.$store.state.sid
       }).then((res) => {
         if (res.code === 200) {
-          console.log(res)
+          alert('登录成功')
+        } else if (res.code === 404) {
+          this.$alert('用户名密码校验失败，请检查')
+        } else if (res.code === 401) {
+          this.$refs.codefield.setErrors([res.msg])
+        }
+      }).catch((err) => {
+        const data = err.response.data
+        // console.log(data.code)
+        if (data.code === 500) {
+          this.$alert('用户名密码校验失败，请检查')
+        } else {
+          this.$alert('服务器错误，请联系网站管理员')
         }
       })
     }

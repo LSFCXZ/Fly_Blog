@@ -1,6 +1,7 @@
 import { getCode } from '@/api/login'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import uuid from 'uuid/dist/v4'
+
 export default {
   name: 'Add',
   components: {
