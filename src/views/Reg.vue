@@ -242,9 +242,26 @@ export default {
         uid: this.uid
       }).then((res) => {
         if (res.code === 200) {
-          console.log(res)
+          // 清空信息
+          this.username = ''
+          this.name = ''
+          this.password = ''
+          this.repassword = ''
+          this.code = ''
+          requestAnimationFrame(() => {
+            this.$refs.observer.reset()
+          })
+          // 跳转到登录路由
+          this.$router.push('/login')
+          this.$alert('注册成功，现在可以登录啦~')
         } else if (res.code === 500) {
           this.$refs.observer.setErrors(res.msg)
+        }
+      }).catch((err) => {
+        // 这里请求错误会到errhandle集中处理，使用err接受data
+        const data = err.response.data
+        if (data.code === 500) {
+          this.$alert('服务器错误，请联系网站管理员')
         }
       })
     },

@@ -141,7 +141,21 @@ export default {
         sid: this.$store.state.sid
       }).then((res) => {
         if (res.code === 200) {
-          alert('登录成功')
+        // 两种缓存数据的方法 localStorage sessionStorage
+          // localStorage.setItem('userInfo', JSON.stringify(res.data))
+          // 插入username属性，这里不是后台查询过来,因为登录成果后台不返回username
+          res.data.username = this.username
+          this.$store.commit('setUserInfo', res.data)
+          this.$store.commit('setToken', res.token)
+          this.$store.commit('setIsLogin', true)
+          this.username = ''
+          this.password = ''
+          this.code = ''
+          // 清空错误的校验信息
+          requestAnimationFrame(() => {
+            this.$refs.observer && this.$refs.observer.reset()
+          })
+          this.$router.push('/')
         } else if (res.code === 404) {
           this.$alert('用户名密码校验失败，请检查')
         } else if (res.code === 401) {
