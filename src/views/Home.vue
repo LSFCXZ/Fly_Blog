@@ -1,11 +1,16 @@
 <template>
-  <div class="home">
-    这是首页
+  <div>
+    <lsf-planel></lsf-planel>
   </div>
 </template>
 
 <script>
+import panel from '@/components/Panel'
 export default {
-  name: 'Home'
+  name: 'Home',
+  components: {
+    'lsf-planel': panel
+  }
+
 }
 </script>
