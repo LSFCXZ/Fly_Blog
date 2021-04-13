@@ -2,8 +2,8 @@
   <div class="layui-container">
     <div class="layui-row layui-col-space15">
       <div class="layui-col-md8">
-        <!-- <lsf-list></lsf-list> -->
-        lists
+        <lsf-list></lsf-list>
+
       </div>
       <div class="layui-col-md4">
         <lsf-hotlist></lsf-hotlist>
@@ -18,14 +18,14 @@
 import HotList from '../../components/sidebar/HotList'
 import Ads from '../../components/sidebar/Ads'
 import Links from '../../components/sidebar/Links'
-// import List from '../../components/contents/List'
+import List from '../../components/contents/List'
 export default {
   name: 'Template1',
   components: {
     'lsf-hotlist': HotList,
     'lsf-ads': Ads,
-    'lsf-links': Links
-    // 'lsf-list': List
+    'lsf-links': Links,
+    'lsf-list': List
   }
 }
 </script>
