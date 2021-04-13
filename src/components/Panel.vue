@@ -22,19 +22,6 @@
 
       <div class="fly-column-right layui-hide-xs">
         <!-- <span class="fly-search"><i class="layui-icon"></i></span> -->
-        <div class="search-input">
-          <form>
-            <input autocomplete="off"
-              placeholder="搜索内容，回车跳转"
-              type="text"
-              v-model="keyword"
-              @keyup.enter.prevent="sum()">
-            <!-- 防止页面的刷新 -->
-            <input v-show="false" />
-          </form>
-          <i class="larryms-forum-search layui-icon"
-            @click.prevent="sum()"></i>
-        </div>
         <!-- <a
           href="jie/add.html"
           class="layui-btn"

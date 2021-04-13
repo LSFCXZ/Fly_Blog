@@ -52,9 +52,6 @@
 <script>
 export default {
   name: 'Header',
-  //   mounted () {
-  // console.log(is);
-  //   },
   computed: {
     isShow () {
       return this.$store.state.isLogin
