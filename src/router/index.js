@@ -21,7 +21,7 @@ const routes = [
         component: Index
       },
       {
-        path: 'index/:catalog',
+        path: 'index/:catalog', // 路由传参
         name: 'catalog',
         component: Template1
       }
