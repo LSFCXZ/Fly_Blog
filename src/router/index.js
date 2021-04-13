@@ -4,8 +4,8 @@ import Home from '../views/Home.vue'
 const Login = () => import('../views/Login.vue')
 const Reg = () => import('../views/Reg.vue')
 const Forget = () => import('../views/Forget.vue')
-// const Index = () => import('../views/channels/Index.vue')
-// const Template1 = () => import('../views/channels/Template1.vue')
+const Index = () => import('../views/channels/Index.vue')
+const Template1 = () => import('../views/channels/Template1.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,19 +13,19 @@ const routes = [
   {
     path: '/',
     // name: 'Home',
-    component: Home
-    // children: [
-    //   {
-    //     path: '/',
-    //     name: 'index',
-    //     component: Index
-    //   },
-    //   {
-    //     path: 'index/:catalog',
-    //     name: 'catalog',
-    //     component: Template1
-    //   }
-    // ]
+    component: Home,
+    children: [
+      {
+        path: '/',
+        name: 'index',
+        component: Index
+      },
+      {
+        path: 'index/:catalog',
+        name: 'catalog',
+        component: Template1
+      }
+    ]
   },
   // 登录
   {

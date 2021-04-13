@@ -74,41 +74,10 @@ export default {
     }
   },
   methods: {
-    sum () {
-      if (this.keyword === '') {
-        this.$alert('请输入内容再搜索')
-        return
-      }
-      console.log('按下了回车')
-    }
+
   }
 }
 </script>
 
 <style lang="scss" >
-.search-input {
-  display: inline-block;
-  vertical-align: top;
-  position: relative;
-  margin-right: 15px;
-  padding-top: 1px;
-}
-.search-input input {
-  height: 34px;
-  line-height: 34px;
-  width: 210px;
-  border-radius: 3px;
-  border: 1px solid #e8e8e8;
-  text-indent: 5px;
-  font-size: 14px;
-}
-.search-input i {
-  position: absolute;
-  top: 0px;
-  right: 10px;
-  font-size: 20px;
-}
-.larryms-forum-search {
-  cursor: pointer;
-}
 </style>

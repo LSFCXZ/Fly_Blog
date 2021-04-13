@@ -1,6 +1,7 @@
 <template>
   <div>
     <lsf-planel></lsf-planel>
+    <router-view></router-view>
   </div>
 </template>
 
