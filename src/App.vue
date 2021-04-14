@@ -59,4 +59,39 @@ export default {
     margin-left: $i * 10 + px !important;
   }
 }
+//关闭图标
+.pull-right {
+  float: right !important;
+}
+//签到的过渡逻辑
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes bounceOut {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+.fade-leave-active {
+  animation: bounceOut 0.3s;
+}
+
+.fade-enter-active,
+.fade-enter-to {
+  animation: bounceIn 0.3s;
+}
 </style>

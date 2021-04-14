@@ -155,6 +155,7 @@ router.beforeEach((to, from, next) => {
   if (token !== '' && token !== null) {
     // 获取解析token的到期时间
     const payload = jwt.decode(token)
+    // 判断jwt是否过期
     if (moment().isBefore(moment(payload.exp * 1000))) {
       store.commit('setToken', token)
       store.commit('setUserInfo', userInfo)
