@@ -36,4 +36,27 @@ export default {
     height: 50px;
   }
 }
+.gray {
+  color: #999;
+}
+@for $i from 0 to 5 {
+  .pd#{$i} {
+    padding: $i * 10 + px !important;
+  }
+  .pl#{$i} {
+    padding: $i * 10 + px !important;
+  }
+  .pr#{$i} {
+    padding: $i * 10 + px !important;
+  }
+  .mr#{$i} {
+    margin-right: $i * 10 + px !important;
+  }
+  .mt#{$i} {
+    margin-top: $i * 10 + px !important;
+  }
+  .ml#{$i} {
+    margin-left: $i * 10 + px !important;
+  }
+}
 </style>

@@ -12,6 +12,7 @@ const Forget = () => import('../views/Forget.vue')
 const Index = () => import('../views/channels/Index.vue')
 const Template1 = () => import('../views/channels/Template1.vue')
 // 个人中心组件
+const User = () => import('../views/User.vue')
 const Center = () => import('../views/Center.vue')
 const UserCenter = () => import('../components/user/Center.vue')
 const Settings = () => import('../components/user/Settings.vue')
@@ -62,6 +63,13 @@ const routes = [
     path: '/forget',
     name: 'forget',
     component: Forget
+  },
+  // 个人主页
+  {
+    path: '/user/:uid',
+    name: 'user',
+    props: true,
+    component: User
   },
   // 用户中心
   {
