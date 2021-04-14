@@ -54,7 +54,7 @@ export default {
         },
         {
           name: '讨论',
-          path: '/index/disuss'
+          path: '/index/discuss'
         },
         {
           name: '建议',

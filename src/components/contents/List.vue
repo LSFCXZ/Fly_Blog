@@ -43,7 +43,7 @@ export default {
   components: { 'lsf-listitem': LisetItem },
   data () {
     return {
-
+      current: '',
       isRepeat: false, // 请求锁
       status: '',
       tag: '', // 精华标签
@@ -52,8 +52,27 @@ export default {
       limit: 10, // 一页显示10条
       lists: [], // 文章详情
       total: 0, // 一共多少条文章
-      loading: false// loading的状态
-
+      loading: false, // loading的状态
+      catalog: '' // 分类
+    }
+  },
+  watch: {
+    current (newval, odlval) {
+      console.log('odlval:' + odlval + ',' + 'newval+' + newval)
+      // this.init()
+      this.page = 0
+      this.lists = []
+      this._getLists()
+    },
+    // 取路由分类的数据
+    '$route' (newval, odlval) {
+      const catalog = this.$route.params.catalog
+      if (typeof catalog !== 'undefined' && catalog !== '') {
+        this.catalog = catalog
+      }
+      this.page = 0
+      this.lists = []
+      this._getLists()
     }
   },
   methods: {
@@ -70,7 +89,9 @@ export default {
         page: this.page,
         limit: this.limit,
         tag: this.tag,
-        status: this.status
+        status: this.status,
+        catalog: this.catalog,
+        sort: this.sort
       }
       getList(options).then(res => {
         if (res.code === 200) {
