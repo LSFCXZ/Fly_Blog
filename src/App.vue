@@ -1,19 +1,28 @@
 <template>
+
   <div id="app">
-    <lsf-header></lsf-header>
-    <router-view />
-    <lsf-footer></lsf-footer>
+    <back-top>
+      <lsf-header></lsf-header>
+
+      <router-view />
+
+      <lsf-footer></lsf-footer>
+    </back-top>
   </div>
+
 </template>
 <script>
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
+import BackTop from './components/modules/backTop/BackTop.vue'
 export default {
   name: 'App',
   components: {
     'lsf-header': Header,
-    'lsf-footer': Footer
+    'lsf-footer': Footer,
+    BackTop
   }
+
 }
 </script>
 <style lang="scss">

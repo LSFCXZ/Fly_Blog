@@ -1,6 +1,8 @@
 <template>
   <div class="fly-panel"
-    style="margin-bottom: 0;">
+    style="margin-bottom: 0;"
+    v-loading="loading"
+    element-loading-text="拼命加载中">
 
     <div class="fly-panel-title fly-filter">
       <a :class="{'layui-this': status ===''&& tag ==='' }"
@@ -23,7 +25,13 @@
       </span>
     </div>
     <lsf-listitem :lists="lists"
-      @nextPage="nextPage()"></lsf-listitem>
+      @nextPage="nextPage"
+      @prevPage="prevPage"
+      @ChangeCurrent="ChangeCurrent"
+      :total="total"
+      :limit="limit"
+      :page="page+1"></lsf-listitem>
+
   </div>
 </template>
 
@@ -35,17 +43,27 @@ export default {
   components: { 'lsf-listitem': LisetItem },
   data () {
     return {
+
+      isRepeat: false, // 请求锁
       status: '',
       tag: '', // 精华标签
       sort: 'created', // 按最新，按热议
-      page: 0, //
+      page: 0, // 第几页
       limit: 10, // 一页显示10条
-      lists: []// 文章详情
+      lists: [], // 文章详情
+      total: 0, // 一共多少条文章
+      loading: false// loading的状态
+
     }
   },
   methods: {
     // 获取文章列表
     _getLists () {
+      if (this.isRepeat) {
+        this.loading = true
+        return
+      }
+      this.isRepeat = true
       const options = {
         catlog: this.catlog,
         isTop: 0,
@@ -55,19 +73,36 @@ export default {
         status: this.status
       }
       getList(options).then(res => {
-        this.lists = res.data
-        console.log(res)
+        if (res.code === 200) {
+          this.isRepeat = false
+          this.loading = false
+          this.lists = res.data
+          this.total = res.total
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.isRepeat = false
+        this.loading = false
+        this.$alert(err.message)
       })
     },
     nextPage () {
       this.page++
       this._getLists()
     },
+    prevPage () {
+      this.page--
+      this._getLists()
+    },
+    ChangeCurrent (val) {
+      this.page = val - 1
+      this._getLists()
+    },
     // 点击不同按钮改变状态量
     search (val) {
       // 判断，不去重复触发事件
       if (typeof val === 'undefined' && this.current === '') return
-      // this.current = val
+      this.current = val
       switch (val) {
         // 未结贴
         case 0:

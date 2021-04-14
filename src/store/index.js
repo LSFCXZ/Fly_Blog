@@ -8,7 +8,8 @@ export default new Vuex.Store({
     sid: '',
     isLogin: false,
     token: '',
-    userInfo: {}
+    userInfo: {},
+    isloading: false
   },
   mutations: {
     // 存放唯一标识
@@ -30,6 +31,11 @@ export default new Vuex.Store({
     setIsLogin (state, value) {
       state.isLogin = value
       localStorage.setItem('isLogin', value)
+    },
+    setisloading (state, value) {
+      // console.log('sts' + state)
+      state.isloading = value
+      localStorage.setItem('isloading', value)
     }
   },
   actions: {

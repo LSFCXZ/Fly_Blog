@@ -47,21 +47,33 @@
     </ul>
     <div style="text-align: center"
       v-show="isShow ">
-      <div class="laypage-main"
-        v-if="!isEnd">
-        <a @click.prevent="more()"
-          class="laypage-next">更多求解</a>
+      <div class="page">
+        <!-- <el-pagination background
+          layout="prev, pager, next"
+          :total="total"
+          @next-click="more">
+        </el-pagination> -->
+        <el-pagination @next-click="next"
+          @prev-click="prev"
+          @current-change="ChangeCurrent"
+          :page-size="limit"
+          :current-page="page"
+          background
+          layout="prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
       </div>
-      <div class="nomore gray"
-        v-else>
-        没有更多了
-      </div>
+
     </div>
+
   </div>
+
 </template>
 
 <script>
 import _ from 'lodash'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 export default {
   name: 'ListItem',
   // 接受父组件的变量
@@ -76,10 +88,17 @@ export default {
       default: true,
       type: Boolean
     },
-    // 是否结尾
-    isEnd: {
-      default: false,
-      type: Boolean
+    total: {
+      default: 0,
+      type: Number
+    },
+    limit: {
+      default: 0,
+      type: Number
+    },
+    page: {
+      default: 0,
+      type: Number
     }
   },
   // 监听父组件传过来的lists
@@ -112,13 +131,40 @@ export default {
   },
   methods: {
     // 点击下一页事件
-    more () {
+    next () {
       this.$emit('nextPage')
+    },
+    prev () {
+      this.$emit('prevPage')
+    },
+    ChangeCurrent (val) {
+      this.$emit('ChangeCurrent', val)
     }
-
+  },
+  // 时间过滤器
+  filters: {
+    moment (date) {
+      // 超过 7天的显示格式
+      if (moment(date).isBefore(moment().subtract(7, 'days'))) {
+        return moment(date).format('YYYY-MM-DD')
+      } else {
+        // 7天内显示，XX小时前
+        return moment(date).from(moment())
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.gray {
+  color: #999;
+}
+.nomore {
+  font-size: 16px;
+  padding: 30px 0;
+}
+.page {
+  padding: 20px;
+}
 </style>

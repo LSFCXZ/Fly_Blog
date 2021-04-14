@@ -1,5 +1,5 @@
 <template>
-  <div class="fly-panel fly-column">
+  <div class="fly-panel fly-column ">
     <div class="layui-container">
       <ul class="layui-clear">
         <router-link tag="li"
@@ -79,5 +79,5 @@ export default {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped >
 </style>
