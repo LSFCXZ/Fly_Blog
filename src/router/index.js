@@ -4,11 +4,26 @@ import store from '../store/index'
 import jwt from 'jsonwebtoken'
 import moment from 'dayjs'
 import Home from '../views/Home.vue'
+// 登录注册忘记密码组件
 const Login = () => import('../views/Login.vue')
 const Reg = () => import('../views/Reg.vue')
 const Forget = () => import('../views/Forget.vue')
+// 不同侧边栏组件
 const Index = () => import('../views/channels/Index.vue')
 const Template1 = () => import('../views/channels/Template1.vue')
+// 个人中心组件
+const Center = () => import('../views/Center.vue')
+const UserCenter = () => import('../components/user/Center.vue')
+const Settings = () => import('../components/user/Settings.vue')
+const Posts = () => import('../components/user/Posts.vue')
+const Msg = () => import('../components/user/Msg.vue')
+const Others = () => import('../components/user/Others.vue')
+const Myinfo = () => import('../components/user/common/Myinfo.vue')
+const PicUpload = () => import('../components/user/common/PicUpload.vue')
+const Password = () => import('../components/user/common/Password.vue')
+const Accounts = () => import('../components/user/common/Accounts.vue')
+const MyPost = () => import('../components/user/common/MyPost.vue')
+const MyCollections = () => import('../components/user/common/MyCollections.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -47,6 +62,78 @@ const routes = [
     path: '/forget',
     name: 'forget',
     component: Forget
+  },
+  // 用户中心
+  {
+    path: '/center',
+    component: Center,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'center',
+        component: UserCenter
+      },
+      {
+        path: 'set',
+        // name: 'set',
+        component: Settings,
+        // 用户设置的子路由
+        children: [
+          // 我的资料
+          {
+            path: '',
+            name: 'info',
+            component: Myinfo
+          },
+          // 我的头像
+          {
+            path: 'picUpload',
+            name: 'picUpload',
+            component: PicUpload
+          },
+          // 修改密码
+          {
+            path: 'password',
+            name: 'password',
+            component: Password
+          },
+          // 账号绑定
+          {
+            path: 'accounts',
+            name: 'accounts',
+            component: Accounts
+          }
+        ]
+      },
+      {
+        path: 'mypost',
+        // name: 'mypost',
+        component: Posts,
+        children: [
+          {
+            path: '',
+            name: 'mypost',
+            component: MyPost
+          },
+          {
+            path: 'mycollections',
+            name: 'mycollections',
+            component: MyCollections
+          }
+        ]
+      },
+      {
+        path: 'msg',
+        name: 'msg',
+        component: Msg
+      },
+      {
+        path: 'others',
+        name: 'others',
+        component: Others
+      }
+    ]
   }
 ]
 const router = new VueRouter({
