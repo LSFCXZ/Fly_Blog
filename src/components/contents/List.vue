@@ -158,6 +158,10 @@ export default {
     }
   },
   mounted () {
+    const catalog = this.$route.params.catalog
+    if (typeof catalog !== 'undefined' && catalog !== '') {
+      this.catalog = catalog
+    }
     this._getLists()
   }
 }
