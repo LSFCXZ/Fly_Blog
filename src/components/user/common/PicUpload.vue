@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     upload (e) {
-      console.log(e)
+      // console.log(e)
       const file = e.target.files
       const formData = new FormData()
       if (file.length > 0) {

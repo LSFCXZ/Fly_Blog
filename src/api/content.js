@@ -20,4 +20,10 @@ const getTop = () => {
 const getLinks = () => {
   return axios.get('/public/links')
 }
-export { getList, getTips, getTop, getLinks }
+/**
+ * 图片上传接口
+ */
+const uploadImg = (formData) => {
+  return axios.post('/content/upload', formData)
+}
+export { getList, getTips, getTop, getLinks, uploadImg }

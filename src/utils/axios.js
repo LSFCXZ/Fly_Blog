@@ -2,6 +2,8 @@
 // 对错误的统一处理
 import axios from 'axios'
 import errorHandle from './errorHandle'
+import store from '../store/index'
+import publicConfig from '../config/index'
 const CancelToken = axios.CancelToken
 class HttpRequest {
   constructor (baseUrl) {
@@ -33,6 +35,17 @@ class HttpRequest {
     // 请求拦截器
     instance.interceptors.request.use((config) => {
       // console.log('config is' + config)
+      // 判断是否需要鉴权
+      let ispublic = false
+      publicConfig.publicPath.map((path) => {
+        ispublic = ispublic || path.test(config.url)
+      })
+      const token = store.state.token
+      // 带上token
+      if (!ispublic && token) {
+        config.headers.Authorization = 'Bearer ' + token
+      }
+      // 这是阻止用户短时间内触发同一个请求
       const key = config.url + '&' + config.method
       this.removePending(key, true)
       config.cancelToken = new CancelToken((c) => {

@@ -78,11 +78,15 @@ export default {
   methods: {
     // 获取文章列表
     _getLists () {
+      // 这是第二次点击打开loading
       if (this.isRepeat) {
         this.loading = true
         return
       }
+      // 第一次请求打开锁
+      // 必须要等到页面渲染完成后才能去操作，否则就是loading状态
       this.isRepeat = true
+      this.loading = true
       const options = {
         catlog: this.catlog,
         isTop: 0,
@@ -95,10 +99,10 @@ export default {
       }
       getList(options).then(res => {
         if (res.code === 200) {
-          this.isRepeat = false
-          this.loading = false
           this.lists = res.data
           this.total = res.total
+          this.isRepeat = false
+          this.loading = false
         }
       }).catch((err) => {
         console.log(err)
@@ -116,6 +120,7 @@ export default {
       this._getLists()
     },
     ChangeCurrent (val) {
+      console.log('ChangeCurrent')
       this.page = val - 1
       this._getLists()
     },

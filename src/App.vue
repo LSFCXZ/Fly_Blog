@@ -49,6 +49,9 @@ export default {
   .pr#{$i} {
     padding: $i * 10 + px !important;
   }
+  .pb#{$i} {
+    padding-bottom: $i * 10 + px !important;
+  }
   .mr#{$i} {
     margin-right: $i * 10 + px !important;
   }

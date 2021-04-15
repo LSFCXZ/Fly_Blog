@@ -8,6 +8,10 @@ import Home from '../views/Home.vue'
 const Login = () => import('../views/Login.vue')
 const Reg = () => import('../views/Reg.vue')
 const Forget = () => import('../views/Forget.vue')
+// 重置密码组件
+const Reset = () => import('../views/Reset.vue')
+// 确认修改用户名，邮箱组件
+const Confirm = () => import('../views/Confirm.vue')
 // 不同侧边栏组件
 const Index = () => import('../views/channels/Index.vue')
 const Template1 = () => import('../views/channels/Template1.vue')
@@ -25,6 +29,8 @@ const Password = () => import('../components/user/common/Password.vue')
 const Accounts = () => import('../components/user/common/Accounts.vue')
 const MyPost = () => import('../components/user/common/MyPost.vue')
 const MyCollections = () => import('../components/user/common/MyCollections.vue')
+// 404
+const NoFound = () => import('@/views/NotFound.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -63,6 +69,18 @@ const routes = [
     path: '/forget',
     name: 'forget',
     component: Forget
+  },
+  // 重置密码
+  {
+    path: '/reset',
+    name: 'reset',
+    component: Reset
+  },
+  // 确认修改用户名，邮箱
+  {
+    path: '/confirm',
+    name: 'confirm',
+    component: Confirm
   },
   // 个人主页
   {
@@ -142,6 +160,15 @@ const routes = [
         component: Others
       }
     ]
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: NoFound
+  },
+  {
+    path: '*',
+    redirect: '/404'
   }
 ]
 const router = new VueRouter({
@@ -150,6 +177,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  // const isLogin = store.state.isLogin
+  // if (isLogin) {
+  //   next()
+  // } else {
+  //   next('/')
+  // }
   const token = localStorage.getItem('token')
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   if (token !== '' && token !== null) {

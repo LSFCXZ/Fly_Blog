@@ -173,6 +173,10 @@ export default {
     }
   },
   mounted () {
+    // 阻止了用户登录后想再次登录
+    // if (this.$store.state.isLogin) {
+    //   this.$router.push('/')
+    // }
   }
 }
 </script>

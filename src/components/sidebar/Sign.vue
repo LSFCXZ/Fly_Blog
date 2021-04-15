@@ -86,6 +86,9 @@ export default {
     }
   },
   computed: {
+    userInfo () {
+      return this.$store.state.userInfo
+    },
     isLogin () {
       return this.$store.state.isLogin
     },
