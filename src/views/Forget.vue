@@ -63,6 +63,7 @@
                     <label for="L_email"
                       class="layui-form-label">用户名</label>
                     <validation-provider rules="required|email"
+                      ref="username"
                       v-slot="{errors}"
                       name="username">
                       <div class="layui-input-inline">
@@ -144,10 +145,15 @@ export default {
       // 忘记密码，发送邮件
       forget({
         username: this.username,
-        code: this.code
+        code: this.code,
+        sid: this.$store.state.sid
       }).then((res) => {
         if (res.code === 200) {
           alert('发送成功')
+        } else if (res.code === 404) {
+          this.$refs.username.setErrors([res.msg])
+        } else if (res.code === 401) {
+          this.$refs.codefield.setErrors([res.msg])
         }
       })
     }
