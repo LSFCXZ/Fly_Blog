@@ -23,9 +23,12 @@ const changePassword = (data) => {
     ...data
   })
 }
+// 获取用户的基本信息
+const getInfo = (data) => axios.get('/public/info?' + qs.stringify(data))
 export {
   userSign,
   updateUserInfo,
   updateUsername,
-  changePassword
+  changePassword,
+  getInfo
 }

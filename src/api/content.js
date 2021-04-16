@@ -26,4 +26,14 @@ const getLinks = () => {
 const uploadImg = (formData) => {
   return axios.post('/content/upload', formData)
 }
-export { getList, getTips, getTop, getLinks, uploadImg }
+/**
+ * 发帖
+ */
+const addPost = (data) => {
+  return axios.post('/content/add', { ...data })
+}
+// 文章详情
+const getDetail = (tid) => {
+  return axios.get('public/content/detail?tid=' + tid)
+}
+export { getList, getTips, getTop, getLinks, uploadImg, addPost, getDetail }

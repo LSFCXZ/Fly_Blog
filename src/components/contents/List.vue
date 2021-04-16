@@ -113,11 +113,11 @@ export default {
     },
     nextPage () {
       this.page++
-      this._getLists()
+      // this._getLists()
     },
     prevPage () {
       this.page--
-      this._getLists()
+      // this._getLists()
     },
     ChangeCurrent (val) {
       console.log('ChangeCurrent')

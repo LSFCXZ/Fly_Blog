@@ -29,6 +29,10 @@ const Password = () => import('../components/user/common/Password.vue')
 const Accounts = () => import('../components/user/common/Accounts.vue')
 const MyPost = () => import('../components/user/common/MyPost.vue')
 const MyCollections = () => import('../components/user/common/MyCollections.vue')
+// 发帖组件
+const Add = () => import('../components/contents/Add.vue')
+// 帖子详情组件
+const Detail = () => import('../components/contents/Detail.vue')
 // 404
 const NoFound = () => import('@/views/NotFound.vue')
 Vue.use(VueRouter)
@@ -160,6 +164,20 @@ const routes = [
         component: Others
       }
     ]
+  },
+  // 发帖
+  {
+    path: '/add',
+    name: 'add',
+    component: Add,
+    meta: { requiresAuth: true }
+  },
+  // 帖子详情
+  {
+    path: '/detail/:tid',
+    name: 'detail',
+    component: Detail,
+    props: true
   },
   {
     path: '/404',

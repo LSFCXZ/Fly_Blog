@@ -69,12 +69,20 @@ export default {
           path: '/index/logs'
         }
       ],
-      keyword: '',
-      isLogin: this.$store.state.isLogin
+      keyword: ''
+      // isLogin: this.$store.state.isLogin
     }
   },
   methods: {
 
+  },
+  computed: {
+    userInfo () {
+      return this.$store.state.userInfo
+    },
+    isLogin () {
+      return this.$store.state.isLogin
+    }
   }
 }
 </script>

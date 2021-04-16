@@ -45,7 +45,7 @@
 
 <script>
 import Sign from '../sidebar/Sign'
-// import { getInfo } from '../../api/user'
+import { getInfo } from '../../api/user'
 export default {
   name: 'User-center',
   components: {
@@ -126,12 +126,13 @@ export default {
     this.getUserInfo()
   },
   methods: {
+    // 每次去查询用户最新的信息并且更新到缓存中来
     getUserInfo () {
-      // getInfo({ uid: this.userInfo._id }).then((res) => {
-      //   if (res.code === 200) {
-      //     this.$store.commit('setUserInfo', res.data)
-      //   }
-      // })
+      getInfo({ uid: this.userInfo._id }).then((res) => {
+        if (res.code === 200) {
+          this.$store.commit('setUserInfo', res.data)
+        }
+      })
     }
   }
 }

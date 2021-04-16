@@ -9,7 +9,8 @@ export default new Vuex.Store({
     isLogin: false,
     token: '',
     userInfo: {},
-    isloading: false
+    isloading: false,
+    isHide: false
   },
   mutations: {
     // 存放唯一标识
@@ -36,6 +37,10 @@ export default new Vuex.Store({
       // console.log('sts' + state)
       state.isloading = value
       localStorage.setItem('isloading', value)
+    },
+    // 设置container的状态
+    setHide (state, value) {
+      state.isHide = value
     }
   },
   actions: {

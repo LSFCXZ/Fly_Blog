@@ -27,6 +27,7 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/css/global.css";
+@import "assets/css/layui-layer/layer.css";
 .svg {
   position: relative;
   // top: -4px;
@@ -96,5 +97,9 @@ export default {
 .fade-enter-active,
 .fade-enter-to {
   animation: bounceIn 0.3s;
+}
+.himg {
+  height: 50%;
+  width: 50%;
 }
 </style>
