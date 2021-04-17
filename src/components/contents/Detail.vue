@@ -90,7 +90,9 @@
         </div>
         <!-- 这是回帖部分 -->
         <div class="fly-panel detail-box"
-          id="flyReply">
+          id="flyReply"
+          v-loading="loading"
+          element-loading-text="拼命加载中">
           <fieldset class="layui-elem-field layui-field-title"
             style="text-align: center;">
             <legend>回帖</legend>
@@ -120,10 +122,10 @@
 
                   <span v-if="index === 0">(楼主)</span>
                   <!--
-                <span style="color:#5FB878">(管理员)</span>
-                <span style="color:#FF9E3F">（社区之光）</span>
-                <span style="color:#999">（该号已被封）</span>
-                -->
+                  <span style="color:#5FB878">(管理员)</span>
+                  <span style="color:#FF9E3F">（社区之光）</span>
+                  <span style="color:#999">（该号已被封）</span> -->
+
                 </div>
 
                 <div class="detail-hits">
@@ -205,7 +207,7 @@
                     <div class>
                       <span class="svg"
                         style="color: #c00"
-                        @click="_getCode()"
+                        @click="_getcode()"
                         v-html="svg"></span>
                     </div>
                     <div>
@@ -284,7 +286,9 @@ export default {
         content: '', // 回复的内容
         code: '',
         sid: ''
-      }
+      },
+      loading: false,
+      isRepeat: false // 请求锁
     }
   },
   mounted () {
@@ -327,6 +331,15 @@ export default {
     },
     // 获取评论信息
     getCommentList () {
+      // 这是第二次点击打开loading
+      if (this.isRepeat) {
+        this.loading = true
+        return
+      }
+      // 第一次请求打开锁
+      // 必须要等到页面渲染完成后才能去操作，否则就是loading状态
+      this.isRepeat = true
+      this.loading = true
       getComments({
         tid: this.tid,
         page: this.current,
@@ -335,6 +348,8 @@ export default {
         if (res.code === 200) {
           this.comments = res.data
           this.total = res.total
+          this.isRepeat = false
+          this.loading = false
         }
         // console.log(res)
       })
@@ -379,7 +394,7 @@ export default {
             this.$refs.observer && this.$refs.observer.reset()
           })
           // 刷新图形验证码
-          this._getCode()
+          this._getcode()
         }
       })
     }

@@ -12,8 +12,11 @@
             </p>
             <p>
               您当前为:
+              <i class="layui-icon layui-icon-diamond "></i>
               <cite>{{userInfo.isVip === '0'? '非VIP' : 'VIP' + userInfo.isVip }}</cite>
+              <i class="layui-btn layui-btn-xs layui-btn-danger">{{userInfo.isVip === '0'? '充值' : '续费'}}</i>
             </p>
+
           </div>
         </div>
       </div>

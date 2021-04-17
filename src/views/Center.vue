@@ -62,8 +62,8 @@ export default {
           link: 'msg'
         },
         {
-          name: '其他设置',
-          icon: 'layui-icon-component',
+          name: '我的云盘',
+          icon: 'layui-icon-upload',
           link: 'others'
         }
       ]
