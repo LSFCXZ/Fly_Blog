@@ -122,8 +122,8 @@ export default {
   mixins: [Code],
   data () {
     return {
-      username: '',
-      password: ''
+      username: '1770813141@qq.com',
+      password: '766402'
     }
   },
   methods: {

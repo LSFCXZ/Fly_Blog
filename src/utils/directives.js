@@ -1,8 +1,10 @@
 import { escapeHtml } from '@/utils/escapeHtml'
 // import store from '@/store'
+// 自定义指令
 export default {
   richtext: {
     bind: function (el, binding, vnode) {
+      // 取的dom节点的value值
       el.innerHTML = escapeHtml(binding.value)
     },
     componentUpdated: function (el, binding, vnode) {

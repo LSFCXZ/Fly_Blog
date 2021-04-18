@@ -6,6 +6,7 @@
       <div class="layui-col-md8 content detail">
         <div class="fly-panel detail-box">
           <h1>{{page.title}}</h1>
+
           <div class="fly-detail-info">
             <!-- <span class="layui-badge">审核中</span> -->
             <span class="layui-badge layui-bg-green fly-detail-column"
@@ -132,8 +133,9 @@
                   <span>{{item.created | moment}}</span>
                 </div>
 
-                <!-- <i class="iconfont icon-caina"
-                  title="最佳答案"></i> -->
+                <i class="iconfont icon-caina"
+                  v-show="item.isBest === '1'"
+                  title="最佳答案"></i>
               </div>
               <div class="detail-body jieda-body photos"
                 v-richtext="item.content">
@@ -150,10 +152,18 @@
                   <i class="iconfont icon-svgmoban53"></i>
                   回复
                 </span>
+                <!-- 判断当前登录用户的id是否和评论的id相同  item.cuid-》评论者的 ID -->
                 <div class="jieda-admin">
-                  <span type="edit">编辑</span>
-                  <span type="del">删除</span>
-                  <!-- <span class="jieda-accept" type="accept">采纳</span> -->
+                  <span type="edit"
+                    @click="editComent(item)"
+                    v-show="page.isEnd === '0' && item.cuid._id === user._id">编辑</span>
+                  <!-- 管理员权限 -->
+                  <!-- <span type="del">删除</span> -->
+                  <!-- 判断当前登录用户的id是否和文章作者的id相同并且
+                  登录的用过户不能和评论的id相同，这是为了防止文章用户自己采纳自己的答案，回收自己的积分 -->
+                  <span class="jieda-accept"
+                    v-show="page.isEnd === '0' && page.user._id === user._id && item.cuid._id !== user._id "
+                    @click="setBest(item)">采纳</span>
                 </div>
               </div>
             </li>
@@ -227,11 +237,8 @@
       </div>
       <div class="layui-col-md4">
         <lsf-hotlist></lsf-hotlist>
-
         <lsf-ads></lsf-ads>
-
         <lsf-links></lsf-links>
-
       </div>
     </div>
   </div>
@@ -244,10 +251,10 @@ import Links from '@/components/sidebar/Links'
 import Panel from '@/components/Panel'
 import Editor from '../modules/editor/Index'
 import Code from '@/mixin/code'
-// import Page from '@/components/modules/page/Index'
 import { getDetail } from '@/api/content'
-import { getComments, addComment } from '@/api/comments'
+import { getComments, addComment, updateComment } from '@/api/comments'
 import { escapeHtml } from '@/utils/escapeHtml'
+import { scrollToElem } from '@/utils/common'
 export default {
   name: 'Detail',
   props: ['tid'], // 文章的ID
@@ -272,12 +279,16 @@ export default {
         return ''
       }
       return escapeHtml(this.page.content)
+    },
+    // 用户信息
+    user () {
+      return this.$store.state.userInfo
     }
   },
   mixins: [Code],
   data () {
     return {
-      size: 2,
+      size: 10,
       total: 0,
       current: 0, // 第几页，0表示1页
       page: {}, // 页面信息
@@ -291,21 +302,18 @@ export default {
       isRepeat: false // 请求锁
     }
   },
+  watch: {
+    tid (newval, oldval) {
+      this.getPostDetail()
+      this.getCommentList()
+    }
+  },
   mounted () {
+    window.vue = scrollToElem
     this.getPostDetail()
     this.getCommentList()
   },
   methods: {
-    // handleChange (val) {
-    //   this.current = val
-    //   this.getCommentList()
-    // },
-    // // 解决当点击请求20、50.。页的时候，数据没有翻页
-    // handleLimit (val) {
-    //   this.size = val
-    //   this.getCommentList()
-    // },
-
     nextPage () {
       console.log('nextPage')
       this.current++
@@ -322,6 +330,7 @@ export default {
       this.current = val - 1
       this.getCommentList()
     },
+    // 获取文章详情
     getPostDetail () {
       getDetail(this.tid).then((res) => {
         if (res.code === 200) {
@@ -360,6 +369,8 @@ export default {
     },
     async submit () {
       const user = this.$store.state.userInfo
+      // 用户未登录
+      const isLogin = this.$store.state.isLogin
       // 获取评论用户的信息：图片、昵称、vip
       const cuid = {
         _id: user._id,
@@ -372,14 +383,47 @@ export default {
       if (!isValid) {
         return
       }
-      // 用户未登录
-      const isLogin = this.$store.state.isLogin
+      // 用户是否禁言
+      if (user.status !== '0') {
+        this.$pop('shake', '用户已经被禁言，请联系管理员')
+        return
+      }
+      // 用户是否登录
       if (!isLogin) {
         this.$pop('shake', '请先登录')
+        return
       }
       this.editInfo.code = this.code
       this.editInfo.sid = this.$store.state.sid
       this.editInfo.tid = this.tid
+      if (typeof this.editInfo.cid !== 'undefined' && this.editInfo.cid !== '') {
+        const obj = { ...this.editInfo }
+        delete obj.item
+        // 判断用户是否修改了内容
+        if (this.editInfo.content === this.editInfo.item.content) {
+          this.$pop('shake', '确定编辑了内容~~~')
+          return
+        }
+        // 更新评论
+        updateComment(obj).then((res) => {
+          if (res.code === 200) {
+            const temp = this.editInfo.item
+            temp.content = this.editInfo.content
+            this.$pop('', '更新评论成功')
+            this.code = ''
+            this.editInfo.content = ''
+            // 方法一，只用更新特定的一条的content created， $set
+            // 方法二，更新整个数组中的这一条
+            this.comments.splice(
+              this.comments.indexOf(this.editInfo.item),
+              1,
+              temp
+            )
+          }
+        })
+        return
+      }
+
       // 添加评论
       addComment(this.editInfo).then((res) => {
         if (res.code === 200) {
@@ -395,8 +439,27 @@ export default {
           })
           // 刷新图形验证码
           this._getcode()
+        } else {
+          this.$alert('图形验证码错误')
         }
       })
+    },
+    // 编辑 这里要看是否结帖，这条数据是否和登录的用户相同，才能去操作编辑
+    editComent (item) {
+      // console.log(item)
+      // console.log('文章的作者ID' + page.user._id)
+      // scrollToElem('.layui-input-block', 500, 65)
+      this.editInfo.content = item.content
+      document.getElementById('edit').focus()
+      this.editInfo.cid = item._id
+      this.editInfo.item = item
+    },
+    setBest (item, index) {
+      // console.log(item)
+      // console.log('setBest' + index)
+      this.$confirm('确定采纳为最佳答案吗?', () => {
+        // console.log('评论表里面的iD' + item._id)
+      }, () => {})
     }
   }
 

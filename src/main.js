@@ -12,18 +12,19 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import BackTop from './components/modules/backTop/BackTop.vue'
-// 循环绑定keys
+// 循环绑定keys  filters
 Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key])
 })
+// 自定义指令
 Object.keys(directives).forEach((key) => {
   Vue.directive(key, directives[key])
 })
-Vue.use(BackTop)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.use(Alert)
 Vue.use(Pop)
+Vue.use(BackTop)
 new Vue({
   router,
   store,
