@@ -252,7 +252,7 @@ import Panel from '@/components/Panel'
 import Editor from '../modules/editor/Index'
 import Code from '@/mixin/code'
 import { getDetail } from '@/api/content'
-import { getComments, addComment, updateComment } from '@/api/comments'
+import { getComments, addComment, updateComment, setCommentBest } from '@/api/comments'
 import { escapeHtml } from '@/utils/escapeHtml'
 import { scrollToElem } from '@/utils/common'
 export default {
@@ -459,6 +459,16 @@ export default {
       // console.log('setBest' + index)
       this.$confirm('确定采纳为最佳答案吗?', () => {
         // console.log('评论表里面的iD' + item._id)
+        setCommentBest({
+          cid: item._id,
+          tid: this.tid
+        }).then((res) => {
+          if (res.code === 200) {
+            this.$pop('', '设置最佳答案成功！')
+            item.isBest = '1'
+            this.page.isEnd = '1'
+          }
+        })
       }, () => {})
     }
   }

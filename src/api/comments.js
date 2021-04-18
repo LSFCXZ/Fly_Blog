@@ -10,4 +10,6 @@ const addComment = (data) => {
 }
 // 更新评论
 const updateComment = (data) => axios.post('/comments/update', { ...data })
-export { getComments, addComment, updateComment }
+// 采纳最佳答案
+const setCommentBest = (data) => axios.post('/comments/setCommentBest', { ...data })
+export { getComments, addComment, updateComment, setCommentBest }
