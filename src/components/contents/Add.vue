@@ -184,7 +184,7 @@ export default {
         },
         {
           text: '讨论',
-          value: 'disuss'
+          value: 'discuss'
         },
         {
           text: '建议',

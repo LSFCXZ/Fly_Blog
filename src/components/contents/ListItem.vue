@@ -112,7 +112,7 @@ export default {
           case 'share':
             item.catalog = '分享'
             break
-          case 'disuss':
+          case 'discuss':
             item.catalog = '讨论'
             break
           case 'advise':

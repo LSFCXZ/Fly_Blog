@@ -18,7 +18,7 @@
             <span class="layui-badge layui-bg-green fly-detail-column"
               v-else-if="page.catalog === 'advise'">建议</span>
             <span class="layui-badge layui-bg-green fly-detail-column"
-              v-else-if="page.catalog === 'discuss'">交流</span>
+              v-else-if="page.catalog === 'discuss'">讨论</span>
             <span class="layui-badge layui-bg-green fly-detail-column"
               v-else-if="page.catalog === 'notice'">公告</span>
             <span class="layui-badge"
