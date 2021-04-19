@@ -11,5 +11,5 @@ const addComment = (data) => {
 // 更新评论
 const updateComment = (data) => axios.post('/comments/update', { ...data })
 // 采纳最佳答案
-const setCommentBest = (data) => axios.post('/comments/setCommentBest', { ...data })
+const setCommentBest = (params) => axios.get('/comments/accept?' + qs.stringify(params))
 export { getComments, addComment, updateComment, setCommentBest }

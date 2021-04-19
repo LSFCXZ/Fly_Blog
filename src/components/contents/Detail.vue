@@ -439,8 +439,8 @@ export default {
           })
           // 刷新图形验证码
           this._getcode()
-        } else {
-          this.$alert('图形验证码错误')
+        } else if (res.code === 500) {
+          this.$alert(res.msg)
         }
       })
     },
