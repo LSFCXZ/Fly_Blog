@@ -149,7 +149,8 @@
                   <i class="iconfont icon-zan"></i>
                   <em>{{item.hands}}</em>
                 </span>
-                <span type="reply">
+                <span type="reply"
+                  @click="reply(item)">
                   <i class="iconfont icon-svgmoban53"></i>
                   回复
                 </span>
@@ -254,7 +255,7 @@ import Code from '@/mixin/code'
 import { getDetail } from '@/api/content'
 import { getComments, addComment, updateComment, setCommentBest, setHands } from '@/api/comments'
 import { escapeHtml } from '@/utils/escapeHtml'
-import { scrollToElem } from '@/utils/common'
+// import { scrollToElem } from '@/utils/common'
 export default {
   name: 'Detail',
   props: ['tid'], // 文章的ID
@@ -309,7 +310,7 @@ export default {
     }
   },
   mounted () {
-    window.vue = scrollToElem
+    // window.vue = scrollToElem
     this.getPostDetail()
     this.getCommentList()
   },
@@ -383,14 +384,14 @@ export default {
       if (!isValid) {
         return
       }
-      // 用户是否禁言
-      if (user.status !== '0') {
-        this.$pop('shake', '用户已经被禁言，请联系管理员')
-        return
-      }
       // 用户是否登录
       if (!isLogin) {
         this.$pop('shake', '请先登录')
+        return
+      }
+      // 用户是否禁言
+      if (user.status !== '0') {
+        this.$pop('shake', '用户已经被禁言，请联系管理员')
         return
       }
       this.editInfo.code = this.code
@@ -454,7 +455,7 @@ export default {
       this.editInfo.cid = item._id
       this.editInfo.item = item
     },
-    setBest (item, index) {
+    setBest (item) {
       // console.log(item)
       // console.log('setBest' + index)
       this.$confirm('确定采纳为最佳答案吗?', () => {
@@ -471,6 +472,7 @@ export default {
         })
       }, () => {})
     },
+    // 点赞
     hands (item) {
       setHands({ cid: item._id }).then((res) => {
         if (res.code === 200) {
@@ -489,6 +491,30 @@ export default {
           this.$alert('服务器错误，请联系网站管理员')
         }
       })
+    },
+    //
+    reply (item) {
+      // debugger
+      const reg = /^@[\S]+/g
+      if (this.editInfo.content) {
+        if (reg.test(this.editInfo.content)) {
+          this.editInfo.content = this.editInfo.content.replace(
+            reg,
+            '@' + item.cuid.name + ' '
+          )
+        } else {
+          if (this.editInfo.content !== '') {
+            // 非空的情况
+            this.editInfo.content = `@${item.cuid.name} ${this.editInfo.content}`
+          }
+        }
+      } else {
+        // 评论框为空
+        this.editInfo.content = '@' + item.cuid.name + ' '
+      }
+      document.getElementById('edit').focus()
+      // this.editInfo.cid = item._id
+      // this.editInfo.item = item
     }
   }
 
