@@ -1,5 +1,6 @@
 import axios from '../utils/request'
 import qs from 'qs'
+import store from '@/store'
 /**
  * 获取帖子列表
  * 使用qs拼接参数
@@ -34,7 +35,16 @@ const addPost = (data) => {
 }
 // 文章详情
 const getDetail = (tid) => {
-  return axios.get('public/content/detail?tid=' + tid)
+  const token = store.state.token
+  let headers = {}
+  if (token !== '') {
+    headers = {
+      headers: {
+        Authorization: 'Bearer ' + store.state.token
+      }
+    }
+  }
+  return axios.get('public/content/detail?tid=' + tid, headers)
 }
 // 编辑帖子
 const updatePost = (data) => axios.post('/content/update', { ...data })
