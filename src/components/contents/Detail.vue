@@ -84,7 +84,9 @@
             <router-link class="layui-btn layui-btn-sm jie-admin"
               :to="{name: 'edit', params: {tid: tid , page: page}}"
               v-show="page.isEnd === '0' && page.user._id === user._id">编辑</router-link>
-            <a class="layui-btn layui-btn-sm jie-admin jie-admin-collect">收藏</a>
+            <a class="layui-btn layui-btn-sm jie-admin-collect"
+              :class="{'layui-btn-primary': page.isFav}"
+              @click.prevent="setCollect()">{{page.isFav ? '取消收藏': '收藏'}}</a>
           </div>
           <div class="detail-body photos"
             v-html="content">
@@ -254,6 +256,7 @@ import Links from '@/components/sidebar/Links'
 import Panel from '@/components/Panel'
 import Editor from '../modules/editor/Index'
 import Code from '@/mixin/code'
+import { addCollect } from '@/api/user'
 import { getDetail } from '@/api/content'
 import { getComments, addComment, updateComment, setCommentBest, setHands } from '@/api/comments'
 import { escapeHtml } from '@/utils/escapeHtml'
@@ -517,6 +520,25 @@ export default {
       document.getElementById('edit').focus()
       // this.editInfo.cid = item._id
       // this.editInfo.item = item
+    },
+    setCollect () {
+      // 设置收藏 & 取消收藏
+      const isLogin = this.$store.state.isLogin
+      if (isLogin) {
+        const collect = {
+          tid: this.tid,
+          title: this.page.title,
+          isFav: this.page.isFav ? 1 : 0
+        }
+        addCollect(collect).then((res) => {
+          if (res.code === 200) {
+            this.page.isFav = !this.page.isFav
+            this.$pop('', this.page.isFav ? '设置收藏成功' : '取消收藏成功')
+          }
+        })
+      } else {
+        this.$pop('shake', '请先登录后再进行收藏！')
+      }
     }
   }
 

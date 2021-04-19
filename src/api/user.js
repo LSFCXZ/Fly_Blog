@@ -25,10 +25,17 @@ const changePassword = (data) => {
 }
 // 获取用户的基本信息
 const getInfo = (data) => axios.get('/public/info?' + qs.stringify(data))
+
+// 收藏||取消收藏
+const addCollect = (data) => axios.get('/user/set-Collect?' + qs.stringify(data))
+// 获取收藏列表
+const getCollect = (data) => axios.get('/user/collect?' + qs.stringify(data))
 export {
   userSign,
   updateUserInfo,
   updateUsername,
   changePassword,
-  getInfo
+  getInfo,
+  addCollect,
+  getCollect
 }

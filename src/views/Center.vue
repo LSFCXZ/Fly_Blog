@@ -4,11 +4,12 @@
       lay-filter="user">
       <li class="layui-nav-item"
         v-for="(item,index) in lists"
-        :key="'center'+index">
-        <router-link :to="{name: item.link}"
+        :key="'center' + index">
+        <router-link :to="{name: item.link, params: {uid: uid}}"
           :active-class="item.activeClass">
           <i class="layui-icon"
-            :class="item.icon"></i>{{item.name}}
+            :class="item.icon"></i>
+          {{item.name}}
         </router-link>
       </li>
 
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'Center',
   data () {
@@ -68,6 +70,9 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters(['uid'])
   }
 }
 </script>
