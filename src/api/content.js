@@ -36,4 +36,6 @@ const addPost = (data) => {
 const getDetail = (tid) => {
   return axios.get('public/content/detail?tid=' + tid)
 }
-export { getList, getTips, getTop, getLinks, uploadImg, addPost, getDetail }
+// 编辑帖子
+const updatePost = (data) => axios.post('/content/update', { ...data })
+export { getList, getTips, getTop, getLinks, uploadImg, addPost, getDetail, updatePost }

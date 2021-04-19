@@ -81,7 +81,9 @@
             </div>
           </div>
           <div class="layui-btn-container fly-detail-admin pt1">
-            <a class="layui-btn layui-btn-sm jie-admin">编辑</a>
+            <router-link class="layui-btn layui-btn-sm jie-admin"
+              :to="{name: 'edit', params: {tid: tid , page: page}}"
+              v-show="page.isEnd === '0' && page.user._id === user._id">编辑</router-link>
             <a class="layui-btn layui-btn-sm jie-admin jie-admin-collect">收藏</a>
           </div>
           <div class="detail-body photos"

@@ -33,6 +33,8 @@ const MyCollections = () => import('../components/user/common/MyCollections.vue'
 const Add = () => import('../components/contents/Add.vue')
 // 帖子详情组件
 const Detail = () => import('../components/contents/Detail.vue')
+// 编辑帖子
+const Edit = () => import('@/components/contents/Edit.vue')
 // 404
 const NoFound = () => import('@/views/NotFound.vue')
 Vue.use(VueRouter)
@@ -178,6 +180,37 @@ const routes = [
     name: 'detail',
     component: Detail,
     props: true
+  },
+  // 编辑帖子
+  {
+    path: '/edit/:tid',
+    props: true,
+    name: 'edit',
+    component: Edit,
+    meta: { requiresAuth: true },
+    beforeEnter (to, from, next) {
+      // 正常的情况 detail
+      if (
+        ['detail', 'mypost'].indexOf(from.name) !== -1 &&
+        to.params.page &&
+        to.params.page.isEnd === '0'
+      ) {
+        next()
+      } else {
+        // 用户在edit页面刷新的情况
+        const editData = localStorage.getItem('editData')
+        if (editData && editData !== '') {
+          const editObj = JSON.parse(editData)
+          if (editObj.isEnd === '0') {
+            next()
+          } else {
+            next('/')
+          }
+        } else {
+          next('/')
+        }
+      }
+    }
   },
   {
     path: '/404',

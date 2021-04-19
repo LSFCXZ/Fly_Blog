@@ -158,7 +158,7 @@ export default {
           this.status = ''
           this.tag = ''
           this.current = ''
-          console.log('点击')
+          // console.log('点击')
       }
     }
   },
