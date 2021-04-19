@@ -144,7 +144,8 @@
               <div class="jieda-reply">
                 <span class="jieda-zan "
                   :class="{'zanok' :item.handed === '1'}"
-                  type="zan">
+                  type="zan"
+                  @click="hands(item)">
                   <i class="iconfont icon-zan"></i>
                   <em>{{item.hands}}</em>
                 </span>
@@ -203,7 +204,6 @@
                     ref="codefield"
                     rules="required|length:4"
                     v-slot="{ errors }">
-
                     <label for="L_vercode"
                       class="layui-form-label">验证码</label>
                     <div class="layui-input-inline">
@@ -252,7 +252,7 @@ import Panel from '@/components/Panel'
 import Editor from '../modules/editor/Index'
 import Code from '@/mixin/code'
 import { getDetail } from '@/api/content'
-import { getComments, addComment, updateComment, setCommentBest } from '@/api/comments'
+import { getComments, addComment, updateComment, setCommentBest, setHands } from '@/api/comments'
 import { escapeHtml } from '@/utils/escapeHtml'
 import { scrollToElem } from '@/utils/common'
 export default {
@@ -470,6 +470,25 @@ export default {
           }
         })
       }, () => {})
+    },
+    hands (item) {
+      setHands({ cid: item._id }).then((res) => {
+        if (res.code === 200) {
+          this.$pop('', '点赞成功')
+          item.handed = '1'
+          item.hands += 1
+        } else if (res.code === 401) {
+          this.$pop('shake', res.msg)
+        }
+      }).catch((err) => {
+        const data = err.response.data
+        // console.log(data.code)
+        if (data.code === 401) {
+          this.$pop('shake', '请登录后点赞')
+        } else {
+          this.$alert('服务器错误，请联系网站管理员')
+        }
+      })
     }
   }
 
