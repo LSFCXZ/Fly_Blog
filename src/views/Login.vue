@@ -122,8 +122,8 @@ export default {
   mixins: [Code], // 代码混入
   data () {
     return {
-      username: '1770813141@qq.com',
-      password: '766402'
+      username: '766402085@qq.com',
+      password: '12345678'
     }
   },
   methods: {

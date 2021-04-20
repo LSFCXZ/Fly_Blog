@@ -21,10 +21,10 @@ export default {
   data () {
     return {
       lists: [
-        { title: '百度', link: 'https://www.baidu.com' },
-        { title: '百度', link: 'https://www.baidu.com' },
-        { title: '百度', link: 'https://www.baidu.com' },
-        { title: '百度', link: 'https://www.baidu.com' }
+        // { title: '百度', link: 'https://www.baidu.com' },
+        // { title: '百度', link: 'https://www.baidu.com' },
+        // { title: '百度', link: 'https://www.baidu.com' },
+        // { title: '百度', link: 'https://www.baidu.com' }
       ]
     }
   },

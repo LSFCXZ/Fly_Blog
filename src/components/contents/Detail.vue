@@ -58,13 +58,12 @@
           </div>
           <div class="detail-about">
             <a class="fly-avatar"
-              href="../user/home.html">
+              link>
               <img :src="page.user?page.user.pic: '/img/header.jpg'"
                 alt="LSF">
             </a>
             <div class="fly-detail-user">
-              <a href="../user/home.html"
-                class="fly-link">
+              <a class="fly-link">
                 <cite>{{page.user? page.user.name: 'Brian'}}</cite>
                 <!-- <i class="iconfont icon-renzheng"
                   title="认证信息："></i> -->
@@ -290,6 +289,9 @@ export default {
     user () {
       return this.$store.state.userInfo
     }
+    // oid () {
+    //   return this.page.user._id
+    // }
   },
   mixins: [Code],
   data () {
@@ -318,6 +320,7 @@ export default {
     // window.vue = scrollToElem
     this.getPostDetail()
     this.getCommentList()
+    // console.log(this.page)
   },
   methods: {
     nextPage () {
@@ -341,6 +344,7 @@ export default {
       getDetail(this.tid).then((res) => {
         if (res.code === 200) {
           this.page = res.data
+          // console.log(this.page.user._id)
         }
       })
     },

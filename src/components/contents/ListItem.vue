@@ -3,11 +3,12 @@
     <ul class="fly-list">
       <li v-for="(item,index) in items"
         :key="'listitem' + index">
-        <a href=""
-          class="fly-avatar">
+        <router-link class="fly-avatar"
+          :to="{name: 'user', params: {uid: item.uid._id}}"
+          link>
           <img :src="item.uid.pic"
             alt="header">
-        </a>
+        </router-link>
         <h2>
           <a class="layui-badge">{{item.catalog}}</a>
           <router-link :to="{name: 'detail', params: {tid: item._id}}">{{item.title}}</router-link>
