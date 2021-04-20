@@ -19,8 +19,6 @@
             <div class="layui-tab-item layui-show">
               <div class="layui-form layui-form-pane">
                 <form>
-                  <!-- <validation-observer ref="code"
-                    v-slot="{ validate }"> -->
                   <div class="layui-form-item">
                     <label for="L_email"
                       class="layui-form-label">用户名</label>
@@ -63,8 +61,6 @@
                       </div>
                     </validation-provider>
                   </div>
-
-                  <!-- </validation-observer> -->
                   <div class="layui-form-item">
                     <label for="L_pass"
                       class="layui-form-label">密码</label>
@@ -200,12 +196,13 @@ export default {
       password: '',
       repassword: '',
       vercode: '',
-      uid: uuid()
+      uid: uuid()// 这里的uuid对应着邮箱的验证码
     }
   },
   methods: {
+    // 发送邮箱验证码
     postCode () {
-      // 这里先去判断用户民校验是否通过在去请求
+      // 这里先去判断用户邮箱校验是否通过在去请求
       var reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
       if (this.username === '') {
         this.$refs.usernameflie.setErrors(['邮箱不能为空！'])
@@ -221,7 +218,7 @@ export default {
         if (res.code === 200) {
           this.OnClick = true
           this.countdown()
-          alert('发送成功')
+          this.$alert('发送成功')
         }
       })
     },
@@ -242,7 +239,7 @@ export default {
         uid: this.uid
       }).then((res) => {
         if (res.code === 200) {
-          // 清空信息
+          // 清空错误信息
           this.username = ''
           this.name = ''
           this.password = ''
@@ -255,6 +252,7 @@ export default {
           this.$router.push('/login')
           this.$alert('注册成功，现在可以登录啦~')
         } else if (res.code === 500) {
+          // 把错误显示到指定位置
           this.$refs.observer.setErrors(res.msg)
         }
       }).catch((err) => {

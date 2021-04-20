@@ -9,7 +9,7 @@
             <router-link to="/login">登录</router-link>
           </li>
           <li class="layui-this">
-            <router-link to="/forget">重置密码</router-link>
+            重置密码
           </li>
         </ul>
         <div class="layui-form layui-tab-content"
@@ -30,6 +30,7 @@
                         <div class="layui-input-inline">
                           <input type="password"
                             id="L_phone"
+                            placeholder="请输入密码"
                             name="phone"
                             v-model="password"
                             class="layui-input" />
@@ -43,9 +44,7 @@
                   </div>
                   <div class="layui-form-item">
                     <ValidationProvider v-slot="{ errors }"
-                      vid="confirmation"
-                      name="repassword"
-                      rules="required|min:6|max:16">
+                      vid="confirmation">
                       <div class="layui-row">
                         <label for="L_imagecode1"
                           class="layui-form-label">确认密码</label>
@@ -53,6 +52,7 @@
                           <input type="password"
                             name="repassword"
                             v-model="repassword"
+                            placeholder="请确认密码"
                             class="layui-input" />
                         </div>
                       </div>
@@ -77,16 +77,14 @@
                             autocomplete="off"
                             class="layui-input" />
                         </div>
-                        <div class="layui-form-mid"
+                        <span style="color: #c00;"
                           v-html="svg"
-                          @click="_getCode()"
-                          id="img"
-                          style="padding: 0 !important;width: 150px;"></div>
+                          class="svg"
+                          @click="_getcode()"></span>
                       </div>
-                      <div class="layui-row">
-                        <div class="layui-form-mid">
-                          <span style="color: #c00;">{{errors[0]}}</span>
-                        </div>
+
+                      <div>
+                        <span style="color: #c00;">{{errors[0]}}</span>
                       </div>
                     </validation-provider>
                   </div>
@@ -104,48 +102,25 @@
     </div>
   </div>
 </template>
-
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import { getCode, reset } from '@/api/login'
+import { reset } from '@/api/login'
 import { getParam } from '@/utils/common'
-import uuid from 'uuid/dist/v4'
+import Code from '../mixin/code'
 export default {
   name: 'reset',
-  components: {
-    ValidationProvider,
-    ValidationObserver
-  },
+  mixins: [Code],
   data () {
     return {
       key: '',
       password: '',
-      repassword: '',
-      code: '',
-      svg: ''
+      repassword: ''
     }
   },
   mounted () {
-    let sid = ''
-    if (localStorage.getItem('sid')) {
-      sid = localStorage.getItem('sid')
-    } else {
-      sid = uuid()
-      localStorage.setItem('sid', sid)
-    }
-    this.$store.commit('setSid', sid)
-    this._getCode()
-    this.key = getParam('key')
+    this.key = getParam('key')// 取Url的key值
+    // console.log(this.key)
   },
   methods: {
-    _getCode () {
-      const sid = this.$store.state.sid
-      getCode(sid).then((res) => {
-        if (res.code === 200) {
-          this.svg = res.data
-        }
-      })
-    },
     async submit () {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
@@ -164,9 +139,9 @@ export default {
             this.$router.push('/login')
           }, 1000)
         } else {
-          this._getCode()
-          if (res.msg instanceof Object) {
-            this.$refs.observer.setErrors(res.msg)
+          this._getcode()
+          if (res.code === 401) {
+            this.$refs.codefield.setErrors(res.msg.code)
           } else {
             this.$alert(res.msg)
           }

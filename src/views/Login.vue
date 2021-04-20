@@ -119,7 +119,7 @@ import Code from '@/mixin/code'
 import { login } from '@/api/login'
 export default {
   name: 'Login',
-  mixins: [Code],
+  mixins: [Code], // 代码混入
   data () {
     return {
       username: '1770813141@qq.com',
@@ -157,26 +157,18 @@ export default {
           })
           this.$router.push('/')
         } else if (res.code === 404) {
-          this.$alert('用户名密码校验失败，请检查')
+          this.$alert(res.msg)
         } else if (res.code === 401) {
           this.$refs.codefield.setErrors([res.msg])
         }
       }).catch((err) => {
-        const data = err.response.data
-        // console.log(data.code)
+        // 捕获错误,这里请求错误会到errhandle集中处理，使用err接受data
+        const data = err.response.data// 返回过来系统的状态码
         if (data.code === 500) {
-          this.$alert('用户名密码校验失败，请检查')
-        } else {
           this.$alert('服务器错误，请联系网站管理员')
         }
       })
     }
-  },
-  mounted () {
-    // 阻止了用户登录后想再次登录
-    // if (this.$store.state.isLogin) {
-    //   this.$router.push('/')
-    // }
   }
 }
 </script>

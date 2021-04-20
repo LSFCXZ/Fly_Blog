@@ -10,6 +10,7 @@ const getParams = (key, url) => {
   }
   return null
 }
+// 取Url的key值
 const getParam = (name, url) => {
   if (!url) url = location.href
   name = name.replace(/[\\[]/, '\\\\[').replace(/[\]]/, '\\\\]')
