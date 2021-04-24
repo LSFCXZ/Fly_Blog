@@ -54,7 +54,7 @@
           :total="total"
           @next-click="more">
         </el-pagination> -->
-        <el-pagination v-show="page.length > 0 && total > 0"
+        <el-pagination v-show="lists.length > 0 && total > 0"
           @next-click="next"
           @prev-click="prev"
           @current-change="ChangeCurrent"

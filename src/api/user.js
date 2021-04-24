@@ -30,6 +30,10 @@ const getInfo = (data) => axios.get('/public/info?' + qs.stringify(data))
 const addCollect = (data) => axios.get('/user/setCollect?' + qs.stringify(data))
 // 获取收藏列表
 const getCollect = (data) => axios.get('/user/collect?' + qs.stringify(data))
+// 获取用户发表文章列表
+const getPostListByUid = (data) => axios.get('/user/post?' + qs.stringify(data))
+// 删除指定文章
+const deletePostByUid = (data) => axios.post('/user/deletepost', { ...data })
 export {
   userSign,
   updateUserInfo,
@@ -37,5 +41,7 @@ export {
   changePassword,
   getInfo,
   addCollect,
-  getCollect
+  getCollect,
+  getPostListByUid,
+  deletePostByUid
 }
