@@ -51,7 +51,7 @@
 <script>
 import { getCollect } from '@/api/user'
 export default {
-  name: 'my-collection',
+  name: 'MyCollections',
   data () {
     return {
       list: [],
