@@ -5,7 +5,7 @@
         <tr>
           <th class="title">
             <div class="layui-table-cell pl0">
-              <span>帖子标题</span>
+              <span>帖子标题111111</span>
             </div>
           </th>
           <th>
