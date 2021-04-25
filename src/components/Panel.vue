@@ -53,7 +53,7 @@ export default {
           path: '/index/share'
         },
         {
-          name: '交流吧',
+          name: '讨论',
           path: '/index/discuss'
         },
         {
