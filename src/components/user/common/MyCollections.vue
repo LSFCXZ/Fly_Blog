@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { getCollect } from '@/api/user'
+import { getCollect } from '../../../api/user'
 export default {
   name: 'MyCollections',
   data () {
