@@ -62,6 +62,7 @@ export default {
     }
   },
   mounted () {
+    console.log('此处应该加载收藏')
     this.getCollectList()
   },
   methods: {
