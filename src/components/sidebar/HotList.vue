@@ -2,19 +2,21 @@
   <div>
     <dl class="fly-panel fly-list-one">
       <dt class="fly-panel-title">本周热议</dt>
-      <dd v-for="(item, index) in lists"
-        :key="'hotlist' + index">
-        <router-link :to="{name: 'detail', params: {tid: item._id}}">{{item.title}}</router-link>
-        <span>
-          <i class="iconfont icon-pinglun1"></i>
-          {{item.answer}}
-        </span>
-      </dd>
-
+      <template v-if="lists > 0">
+        <dd v-for="(item, index) in lists" :key="'hotlist' + index">
+          <router-link :to="{ name: 'detail', params: { tid: item._id } }">{{
+            item.title
+          }}</router-link>
+          <span>
+            <i class="iconfont icon-pinglun1"></i>
+            {{ item.answer }}
+          </span>
+        </dd>
+      </template>
       <!-- 无数据时 -->
-      <!--
+      <template v-else>
         <div class="fly-none">没有相关数据</div>
-        -->
+      </template>
     </dl>
   </div>
 </template>
@@ -29,15 +31,13 @@ export default {
     }
   },
   mounted () {
-    getTop().then((res) => {
+    getTop().then(res => {
       if (res.code === 200) {
         this.lists = res.data
       }
     })
   }
 }
-
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
