@@ -40,3 +40,4 @@ npm run build
 npm run lint
 ```
 
+PS：需要在本地运行时需要搭配后端使用，修改config/index里面的baseurl即可

@@ -1,37 +1,39 @@
 <template>
   <div class="layui-container fly-marginTop">
-    <div class="fly-panel fly-panel-user"
-      pad20>
-      <div class="layui-tab layui-tab-brief"
-        lay-filter="user">
+    <div class="fly-panel fly-panel-user" pad20>
+      <div class="layui-tab layui-tab-brief" lay-filter="user">
         <ul class="layui-tab-title">
           <li class="layui-this">登入</li>
           <li>
-            <router-link :to="{name:'reg'}">注册</router-link>
+            <router-link :to="{ name: 'reg' }">注册</router-link>
           </li>
         </ul>
-        <div class="layui-form layui-tab-content"
+        <div
+          class="layui-form layui-tab-content"
           id="LAY_ucm"
-          style="padding: 20px 0;">
-          <validation-observer ref="observer"
-            v-slot="{ validate }">
+          style="padding: 20px 0;"
+        >
+          <validation-observer ref="observer" v-slot="{ validate }">
             <div class="layui-tab-item layui-show">
               <div class="layui-form layui-form-pane">
                 <form>
                   <div class="layui-form-item">
-                    <label for="L_email"
-                      class="layui-form-label">用户名</label>
-                    <validation-provider rules="required|email"
-                      v-slot="{errors}"
-                      name="username">
+                    <label for="L_email" class="layui-form-label">用户名</label>
+                    <validation-provider
+                      rules="required|email"
+                      v-slot="{ errors }"
+                      name="username"
+                    >
                       <div class="layui-input-inline">
-                        <input type="text"
+                        <input
+                          type="text"
                           id="L_email"
                           name="username"
                           v-model="username"
                           placeholder="请输入用户名"
                           autocomplete="off"
-                          class="layui-input">
+                          class="layui-input"
+                        />
                       </div>
                       <div class="layui-form-mid">
                         <span style="color: #c00">{{ errors[0] }}</span>
@@ -39,19 +41,22 @@
                     </validation-provider>
                   </div>
                   <div class="layui-form-item">
-                    <label for="L_pass"
-                      class="layui-form-label">密码</label>
-                    <validation-provider rules="required|min:6|max:16"
-                      v-slot="{errors}"
-                      name="password">
+                    <label for="L_pass" class="layui-form-label">密码</label>
+                    <validation-provider
+                      rules="required|min:6|max:16"
+                      v-slot="{ errors }"
+                      name="password"
+                    >
                       <div class="layui-input-inline">
-                        <input type="password"
+                        <input
+                          type="password"
                           id="L_pass"
                           name="password"
                           v-model="password"
                           placeholder="请输入密码"
                           autocomplete="off"
-                          class="layui-input">
+                          class="layui-input"
+                        />
                       </div>
                       <div class="layui-form-mid">
                         <span style="color: #c00">{{ errors[0] }}</span>
@@ -59,26 +64,33 @@
                     </validation-provider>
                   </div>
                   <div class="layui-form-item">
-                    <label for="L_vercode"
-                      class="layui-form-label">验证码</label>
-                    <validation-provider name="code"
+                    <label for="L_vercode" class="layui-form-label"
+                      >验证码</label
+                    >
+                    <validation-provider
+                      name="code"
                       ref="codefield"
                       rules="required|length:4"
-                      v-slot="{ errors }">
+                      v-slot="{ errors }"
+                    >
                       <div class="layui-input-inline">
-                        <input type="text"
+                        <input
+                          type="text"
                           id="L_vercode"
                           name="code"
                           v-model="code"
                           placeholder="请输入验证码"
                           autocomplete="off"
-                          class="layui-input">
+                          class="layui-input"
+                        />
                       </div>
                       <div>
-                        <span style="color: #c00;"
+                        <span
+                          style="color: #c00;"
                           class="svg"
                           @click="_getcode()"
-                          v-html="svg"></span>
+                          v-html="svg"
+                        ></span>
                       </div>
                       <div>
                         <span style="color: #c00">{{ errors[0] }}</span>
@@ -86,11 +98,17 @@
                     </validation-provider>
                   </div>
                   <div class="layui-form-item">
-                    <button class="layui-btn"
+                    <button
+                      class="layui-btn"
                       type="button"
-                      @click="validate().then(submit)">立即登录</button>
+                      @click="validate().then(submit)"
+                    >
+                      立即登录
+                    </button>
                     <span style="padding-left:20px;">
-                      <router-link :to="{name:'forget'}">忘记密码？</router-link>
+                      <router-link :to="{ name: 'forget' }"
+                        >忘记密码？</router-link
+                      >
                     </span>
                   </div>
                   <!-- <div class="layui-form-item fly-form-app">
@@ -139,39 +157,40 @@ export default {
         password: this.password,
         code: this.code,
         sid: this.$store.state.sid
-      }).then((res) => {
-        if (res.code === 200) {
-        // 两种缓存数据的方法 localStorage sessionStorage
-          // localStorage.setItem('userInfo', JSON.stringify(res.data))
-          // 插入username属性，这里不是后台查询过来,因为登录成果后台不返回username
-          res.data.username = this.username
-          this.$store.commit('setUserInfo', res.data)
-          this.$store.commit('setToken', res.token)
-          this.$store.commit('setIsLogin', true)
-          this.username = ''
-          this.password = ''
-          this.code = ''
-          // 清空错误的校验信息
-          requestAnimationFrame(() => {
-            this.$refs.observer && this.$refs.observer.reset()
-          })
-          this.$router.push('/')
-        } else if (res.code === 404) {
-          this.$alert(res.msg)
-        } else if (res.code === 401) {
-          this.$refs.codefield.setErrors([res.msg])
-        }
-      }).catch((err) => {
-        // 捕获错误,这里请求错误会到errhandle集中处理，使用err接受data
-        const data = err.response.data// 返回过来系统的状态码
-        if (data.code === 500) {
-          this.$alert('服务器错误，请联系网站管理员')
-        }
       })
+        .then(res => {
+          if (res.code === 200) {
+            // 两种缓存数据的方法 localStorage sessionStorage
+            // localStorage.setItem('userInfo', JSON.stringify(res.data))
+            // 插入username属性，这里不是后台查询过来,因为登录成果后台不返回username
+            res.data.username = this.username
+            this.$store.commit('setUserInfo', res.data)
+            this.$store.commit('setToken', res.token)
+            this.$store.commit('setIsLogin', true)
+            this.username = ''
+            this.password = ''
+            this.code = ''
+            // 清空错误的校验信息
+            requestAnimationFrame(() => {
+              this.$refs.observer && this.$refs.observer.reset()
+            })
+            this.$router.push('/')
+          } else if (res.code === 404) {
+            this.$alert(res.msg)
+          } else if (res.code === 401) {
+            this.$refs.codefield.setErrors([res.msg])
+          }
+        })
+        .catch(err => {
+          // 捕获错误,这里请求错误会到errhandle集中处理，使用err接受data
+          const data = err.response.data // 返回过来系统的状态码
+          if (data.code === 500) {
+            this.$alert('服务器错误，请联系网站管理员')
+          }
+        })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
