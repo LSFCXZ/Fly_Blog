@@ -28,11 +28,11 @@ Layui： http://fly.layui.com/
 
 ## 项目部分截图
 
-![](F:\frontblog\docs\img\a.png)
+![](https://gitee.com/lsfcxz/frontblog/raw/master/docs/img/a.png)
 
-![](F:\frontblog\docs\img\b.png)
+![](https://gitee.com/lsfcxz/frontblog/raw/master/docs/img/b.png)
 
-![](F:\frontblog\docs\img\c.png)
+![](https://gitee.com/lsfcxz/frontblog/raw/master/docs/img/c.png)
 
 ## 使用方式
 
