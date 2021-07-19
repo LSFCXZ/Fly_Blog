@@ -67,6 +67,7 @@ export default {
     // 取路由分类的数据
     '$route' (newval, odlval) {
       const catalog = this.$route.params.catalog
+      // console.log('🚀 ~ file: List.vue ~ line 70 ~ catalog', catalog)
       if (typeof catalog !== 'undefined' && catalog !== '') {
         this.catalog = catalog
       }
