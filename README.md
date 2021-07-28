@@ -10,6 +10,8 @@
 
 本站体验地址：https://blog.frontblog.top
 
+正式网站：https://prod.frontblog.top
+
 Layui： http://fly.layui.com/
 
 后端地址：https://gitee.com/lsfcxz/koa_api
@@ -24,13 +26,15 @@ Layui： http://fly.layui.com/
 
 ## 更新记录
 
-2021-04-19：完成整个网站整体轮廓
+2021-04-19：完成整体网站设计开发，V1版本（开源）
+
+2021-7-27：完成重构网站，优化逻辑，页面风格统一，实时消息通知，V2版本（闭源）
 
 ## TIP
 
-基于开源版本的社区闭源版本正在测试开发中，相对于开源版本，剔除了风格不合的ElementUI框架，解决了许多逻辑上的问题，预计接入支付功能，会员制度，积分兑换，社区 周边等功能。等功能完善后将上线。
+基于开源版本的社区闭源版本进入Beat阶段，相对于开源版本，剔除了风格不合的ElementUI框架，加入了实时消息通知，解决了许多逻辑上的问题，角色权限的设计等内容。预计接入支付功能，会员制度，积分兑换，社区 周边等功能。网址地址见上。
 
-## 项目部分截图
+项目部分截图
 
 ![](https://gitee.com/lsfcxz/frontblog/raw/master/docs/img/a.png)
 
